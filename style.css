@@ -1,0 +1,98 @@
+/* FILE: style.css */
+:root {
+    --bg-core: #050505;
+    --bg-card: #0f1215;
+    --neon-blue: #00f3ff;
+    --neon-red: #ff003c;
+    --neon-gold: #ffd700;
+    --neon-purple: #bc13fe; 
+    --text-primary: #e0e0e0;
+    --text-dim: #94a3b8;
+    --font-head: 'Inter', sans-serif;
+    --font-code: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg-core);
+    color: var(--text-primary);
+    font-family: var(--font-head);
+    overflow-x: hidden;
+    line-height: 1.7;
+}
+
+/* === NAVIGATION === */
+.nav-trigger {
+    position: fixed; top: 20px; right: 30px; font-size: 2rem; cursor: pointer; z-index: 1000;
+    color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue);
+}
+.sidebar {
+    height: 100%; width: 0; position: fixed; z-index: 999; top: 0; right: 0;
+    background-color: rgba(5, 5, 5, 0.98); overflow-x: hidden; transition: 0.5s;
+    padding-top: 60px; border-left: 1px solid var(--neon-blue); backdrop-filter: blur(10px);
+}
+.sidebar a {
+    padding: 15px 30px; text-decoration: none; font-size: 1.1rem; color: var(--text-dim);
+    display: block; transition: 0.3s; font-family: var(--font-code);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.sidebar a:hover { color: var(--neon-blue); padding-left: 40px; background: rgba(0, 243, 255, 0.05); }
+.sidebar .closebtn { position: absolute; top: 0; right: 25px; font-size: 36px; margin-left: 50px; }
+
+/* === LAYOUT === */
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+header { text-align: center; margin-bottom: 80px; padding-top: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 40px;}
+
+h1 { font-size: 3.5rem; letter-spacing: -2px; background: linear-gradient(90deg, #fff, var(--text-dim)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.tagline { color: var(--neon-blue); font-family: var(--font-code); font-size: 1rem; margin-top: 15px; letter-spacing: 2px;}
+
+/* === DEEP KNOWLEDGE ACCORDION === */
+details {
+    background: var(--bg-card);
+    margin-bottom: 15px;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+details[open] { border-color: var(--text-dim); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+
+summary {
+    padding: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: var(--font-code);
+    color: #fff;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.02);
+}
+
+summary::-webkit-details-marker { display: none; }
+summary:after { content: "+"; color: var(--neon-gold); font-size: 1.5rem; }
+details[open] summary:after { content: "-"; color: var(--neon-red); }
+details[open] summary { border-bottom: 1px solid rgba(255,255,255,0.1); color: var(--neon-gold); }
+
+.detail-content { padding: 30px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+/* === CONTENT STYLES === */
+.section-title { font-size: 2rem; color: #fff; margin: 60px 0 30px 0; border-left: 5px solid var(--neon-blue); padding-left: 20px; }
+.sub-concept { margin-bottom: 40px; }
+.sub-concept h3 { color: var(--neon-blue); margin-bottom: 10px; font-size: 1.4rem; }
+.concept-tag { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 4px; margin-left: 10px; color: var(--text-dim); vertical-align: middle; }
+
+code { background: rgba(0,0,0,0.5); padding: 2px 6px; color: var(--neon-gold); font-family: var(--font-code); border-radius: 4px; font-size: 0.9em; }
+pre { background: #000; padding: 20px; border-radius: 6px; border-left: 3px solid var(--text-dim); overflow-x: auto; margin: 15px 0; }
+pre code { background: transparent; padding: 0; color: #a5d6ff; }
+
+.warning-box { border: 1px solid var(--neon-red); background: rgba(255, 0, 60, 0.05); padding: 15px; margin: 20px 0; border-radius: 5px; color: #ffbdc9; font-size: 0.9rem; }
+.pro-tip { border-left: 3px solid var(--neon-gold); background: rgba(255, 215, 0, 0.05); padding: 15px; margin: 20px 0; font-style: italic; color: #fff; }
+
+/* === BREAKER THEME OVERRIDES === */
+.breaker-theme .nav-trigger, .breaker-theme .tagline, .breaker-theme .sidebar a:hover, .breaker-theme .section-title h2, .breaker-theme .sub-concept h3 { color: var(--neon-red); }
+.breaker-theme .section-title { border-left-color: var(--neon-red); }
+.breaker-theme .sidebar { border-left-color: var(--neon-red); }
