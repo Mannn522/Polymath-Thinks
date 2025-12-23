@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protocol: BUILDER (Deep Archive)</title>
+    <title>Protocol: ARCHITECT (GOD TIER)</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -13,158 +13,77 @@
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="index.html">00 // HOME</a>
-        <a href="#clean-code">01 // CLEAN CODE DEEP</a>
-        <a href="#sys-design">02 // ARCHITECTURE DEEP</a>
-        <a href="#kernel">03 // KERNEL INTERNALS</a>
-        <a href="breaker.html">>> SWITCH TO RED TEAM</a>
+        <a href="#god-algo">01 // GOD ALGORITHMS</a>
+        <a href="#hardware">02 // HARDWARE SYMPATHY</a>
+        <a href="#concurrency">03 // CONCURRENCY HELL</a>
+        <a href="breaker.html">>> SWITCH TO BREAKER</a>
     </div>
 
     <div class="container">
         <header>
             <h1>ARCHITECT PROTOCOL</h1>
-            <p class="tagline">CONSTRUCTING SYSTEMS THAT SURVIVE ENTROPY</p>
+            <p class="tagline">FORBIDDEN ENGINEERING KNOWLEDGE</p>
         </header>
 
-        <h2 id="clean-code" class="section-title">01 // Clean Code Mastery <span style="font-size:0.5em; opacity:0.6">Ref: Robert C. Martin</span></h2>
+        <h2 id="god-algo" class="section-title">01 // Probabilistic Structures</h2>
 
         <details>
-            <summary>NAMING: The First Line of Defense</summary>
+            <summary>BLOOM FILTERS (The Magic of "Maybe")</summary>
             <div class="detail-content">
+                <p>Gimana cara Google Chrome tau URL ini berbahaya atau enggak tanpa nyimpen database virus 100TB di laptop lu?</p>
                 <div class="sub-concept">
-                    <h3>Avoid Disinformation & Magic Numbers</h3>
-                    <p>Jangan namakan variabel <code>accountList</code> kecuali itu benar-benar tipe data List. Jika itu Array, namakan <code>accounts</code>. </p>
-                    <p><strong>Magic Numbers:</strong> Angka yang muncul tiba-tiba tanpa konteks.</p>
-                    <pre><code>// BAD
-if (employee.status == 4) { ... } 
-
-// GOOD
-const WORKER_SLEEPING = 4;
-if (employee.status == WORKER_SLEEPING) { ... }</code></pre>
+                    <h3>Logika Bloom Filter</h3>
+                    <p>Struktur data hemat memori yang menjawab: "Apakah data X ada di sini?".</p>
+                    <ul>
+                        <li>Jawabannya cuma 2: <strong>"Mungkin Ada"</strong> atau <strong>"Pasti Tidak Ada"</strong>.</li>
+                        <li>Tidak pernah "False Negative" (Kalau dia bilang ga ada, pasti ga ada).</li>
+                        <li>Sangat cepat, cuma butuh beberapa bit per data. Jauh lebih ringan dari Hash Map.</li>
+                    </ul>
                 </div>
-                <div class="sub-concept">
-                    <h3>Class vs Method Naming</h3>
-                    <p><strong>Class:</strong> Harus Kata Benda (Noun). <code>Customer</code>, <code>WikiPage</code>, <code>Account</code>. Hindari <code>Manager</code>, <code>Processor</code> (terlalu umum).</p>
-                    <p><strong>Method:</strong> Harus Kata Kerja (Verb). <code>postPayment()</code>, <code>deletePage()</code>. </p>
-                    <div class="pro-tip">TIP: Jika Anda sulit memberi nama variabel, kemungkinan fungsi tersebut melakukan terlalu banyak hal.</div>
+                <div class="code-block">
+                    USE CASE: Cek username unik. Cek Bloom Filter dulu (di RAM). Kalau "Pasti Tidak Ada", langsung acc username. Kalau "Mungkin Ada", baru cek Database beneran (Disk). Hemat 90% query DB.
                 </div>
             </div>
         </details>
 
         <details>
-            <summary>FUNCTIONS: Do One Thing</summary>
+            <summary>HYPERLOGLOG (Counting Billions)</summary>
             <div class="detail-content">
-                <div class="sub-concept">
-                    <h3>Flag Arguments are Ugly</h3>
-                    <p>Passing boolean ke fungsi adalah praktik buruk. Itu berarti fungsi melakukan dua hal (satu jika true, satu jika false).</p>
-                    <pre><code>// BAD
-render(true); // Apa artinya true??
+                <p>Gimana cara ngitung "Unique Visitors" Facebook yang miliaran tanpa nyimpen IP address (yang butuh PB storage)?</p>
+                <p><strong>HyperLogLog</strong> bisa memperkirakan kardinalitas (jumlah unik) data > 1 Miliar dengan error cuma 2%, tapi cuma butuh memori <strong>1.5 Kilobyte</strong>. Ini ilmu sihir matematika statistik.</p>
+            </div>
+        </details>
 
-// GOOD
-renderForSuite();
-renderForSingleTest();</code></pre>
-                </div>
+        <h2 id="hardware" class="section-title">02 // Hardware Sympathy</h2>
+
+        <details>
+            <summary>CPU BRANCH PREDICTION</summary>
+            <div class="detail-content">
+                <p>Kenapa kode if-else yang diurutkan (sorted) lebih cepat 6x lipat dari yang acak? Karena CPU itu peramal.</p>
                 <div class="sub-concept">
-                    <h3>Step-down Rule</h3>
-                    <p>Kode harus dibaca dari atas ke bawah seperti narasi koran. Fungsi High-level memanggil fungsi level di bawahnya, dan seterusnya.</p>
+                    <h3>Pipeline Hazard</h3>
+                    <p>CPU mencoba menebak jalan mana yang akan diambil `if (x > 10)` SEBELUM x dihitung. Jika tebakannya salah, CPU harus membuang semua kerjaan yang udah disiapin (Pipeline Flush). Ini mahal.</p>
+                    <p><strong>Tips Dewa:</strong> Di sistem high-frequency trading, hindari `if-else` di dalam loop panas. Gunakan operasi bitwise atau matematika murni (branchless programming).</p>
                 </div>
             </div>
         </details>
 
         <details>
-            <summary>ERROR HANDLING: Null is Evil</summary>
+            <summary>FALSE SHARING (The Silent Killer)</summary>
             <div class="detail-content">
-                <div class="sub-concept">
-                    <h3>Don't Return Null</h3>
-                    <p>Jika Anda return null, pemanggil harus mengecek <code>if (x != null)</code> di mana-mana. Jika lupa = NullPointerException.</p>
-                    <p><strong>Solusi:</strong> Return Empty List atau 'Special Case Object'.</p>
-                    <pre><code>// BAD
-List&lt;Employee&gt; getEmployees() {
-    if (..no employees..) return null;
-}
-
-// GOOD
-List&lt;Employee&gt; getEmployees() {
-    if (..no employees..) return Collections.emptyList();
-}</code></pre>
-                </div>
+                <p>Bug performa paling sulit dideteksi di multithreading.</p>
+                <p>Terjadi ketika dua thread di CPU Core berbeda memodifikasi variabel yang *berbeda*, tapi variabel itu berada di <strong>Cache Line</strong> yang sama (biasanya 64 byte).</p>
+                <p>Akibatnya? Core A dan Core B saling membatalkan cache satu sama lain (Ping-pong effect). Performa jatuh drastis walau logic kode bener. Solusi: <strong>Memory Padding</strong>.</p>
             </div>
         </details>
 
-        <h2 id="sys-design" class="section-title">02 // System Architecture <span style="font-size:0.5em; opacity:0.6">Ref: Alex Xu</span></h2>
+        <h2 id="concurrency" class="section-title">03 // Concurrency Hell</h2>
 
         <details>
-            <summary>RATE LIMITER: Protecting APIs</summary>
+            <summary>THUNDERING HERD PROBLEM</summary>
             <div class="detail-content">
-                <p>Bagaimana mencegah bot meledakkan server Anda? Rate Limiter.</p>
-                <div class="sub-concept">
-                    <h3>1. Token Bucket Algorithm</h3>
-                    <p>Wadah diisi token dengan kecepatan konstan. Setiap request butuh 1 token. Jika wadah kosong, request ditolak. (Amazon & Stripe pakai ini). Mudah diimplementasi, hemat memori.</p>
-                </div>
-                <div class="sub-concept">
-                    <h3>2. Leaky Bucket Algorithm</h3>
-                    <p>Request masuk antrian (bucket). Request diproses dengan kecepatan tetap (seperti air menetes). Cocok untuk output yang stabil, tapi buruk jika ada <em>burst traffic</em> mendadak.</p>
-                </div>
-                <div class="warning-box"><strong>Distributed Challenge:</strong> Bagaimana sinkronisasi counter di banyak server? Gunakan Redis Lua Script atau Sticky Sessions.</div>
-            </div>
-        </details>
-
-        <details>
-            <summary>CONSISTENT HASHING: The Scale Secret</summary>
-            <div class="detail-content">
-                <p>Saat menambah server ke cluster, Anda tidak ingin memindahkan SEMUA data (Re-sharding massive). Solusinya: Consistent Hashing.</p>
-                <div class="sub-concept">
-                    <h3>Konsep "Virtual Nodes" (PENTING!)</h3>
-                    <p>Masalah hashing standar adalah ketidakseimbangan (server A penuh, server B kosong). Solusinya: Satu server fisik direpresentasikan oleh BANYAK node virtual di lingkaran hash.</p>
-                    <p>Misal: Server A menjadi A1, A2, A3 di posisi acak lingkaran. Ini membuat distribusi data jauh lebih merata (Uniform Distribution).</p>
-                </div>
-            </div>
-        </details>
-
-        <details>
-            <summary>DATABASE SCALING: Sharding Strategies</summary>
-            <div class="detail-content">
-                <p>Saat satu DB tidak cukup menampung TB data.</p>
-                <ul>
-                    <li><strong>Vertical Scaling:</strong> Upgrade RAM/CPU (Mahal, ada batasnya).</li>
-                    <li><strong>Horizontal Scaling (Sharding):</strong> Pecah data ke banyak server.</li>
-                </ul>
-                <div class="sub-concept">
-                    <h3>Sharding Key Selection</h3>
-                    <p>Salah pilih key = Bencana. <br>
-                    - <strong>Geo-based:</strong> Masalah jika user terkonsentrasi di satu kota.<br>
-                    - <strong>Hash(UserID):</strong> Paling umum, distribusi merata.<br>
-                    - <strong>Time-based:</strong> Berguna untuk log, tapi menulis ke shard "Hari Ini" akan membuat hotspot (Write heavy on one node).</p>
-                </div>
-            </div>
-        </details>
-
-        <h2 id="kernel" class="section-title">03 // Linux Kernel Internals <span style="font-size:0.5em; opacity:0.6">Ref: Robert Love</span></h2>
-
-        <details>
-            <summary>PROCESS MANAGEMENT & STATES</summary>
-            <div class="detail-content">
-                <p>Linux tidak cuma punya "Running" dan "Stopped". Pahami state ini untuk debugging <code>top</code> atau <code>htop</code>.</p>
-                <ul>
-                    <li><code>TASK_RUNNING</code>: Sedang dieksekusi atau antri di runqueue.</li>
-                    <li><code>TASK_INTERRUPTIBLE</code>: Tidur (Sleeping), menunggu event. Bisa dibangunkan sinyal.</li>
-                    <li><code>TASK_UNINTERRUPTIBLE</code>: Tidur lelap (biasanya menunggu Disk I/O). <strong>Bahaya:</strong> Proses ini tidak bisa dikill (<code>kill -9</code> tidak mempan) sampai I/O selesai. Muncul sebagai status 'D' di htop.</li>
-                    <li><code>TASK_ZOMBIE</code>: Proses mati, tapi parent belum mengambil exit code-nya.</li>
-                </ul>
-            </div>
-        </details>
-
-        <details>
-            <summary>MEMORY MANAGEMENT: Slab & OOM</summary>
-            <div class="detail-content">
-                <div class="sub-concept">
-                    <h3>Slab Allocator</h3>
-                    <p>Kernel sering membuat objek yang sama berulang kali (contoh: task_struct). Alokasi-dealokasi manual itu lambat & bikin fragmentasi. <strong>Slab Layer</strong> membuat cache objek yang sudah jadi. Saat butuh, ambil dari rak. Saat selesai, kembalikan ke rak (bukan dihancurkan).</p>
-                </div>
-                <div class="sub-concept">
-                    <h3>OOM Killer (Out of Memory)</h3>
-                    <p>Saat RAM habis, Linux tidak crash. Kernel memanggil <strong>OOM Killer</strong>. Ia menghitung skor setiap proses (badness score) dan MEMBUNUH proses yang paling rakus memori tapi "kurang penting" agar sistem tetap hidup.</p>
-                    <div class="pro-tip">Anda bisa mengatur prioritas OOM lewat <code>/proc/[pid]/oom_adj</code> agar proses penting (misal: sshd) tidak dibunuh.</div>
-                </div>
+                <p>Bayangkan 1000 proses tidur nunggu 1 koneksi database. Saat koneksi tersedia, OS membangunkan <strong>SEMUA</strong> 1000 proses itu.</p>
+                <p>Tapi cuma 1 yang dapet koneksi. 999 lainnya balik tidur. Ini buang resource CPU gila-gilaan (Context Switch Storm). Ini masalah klasik di server Linux lama (sebelum epoll) dan desain sistem yang buruk.</p>
             </div>
         </details>
     </div>
